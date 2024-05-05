@@ -1,0 +1,10 @@
+---
+- name: fetching cpu details
+  hosts: webservers
+  tasks:
+    - name: writing command
+      command: cat /proc/cpuinfo
+      register: jacks
+
+    - debug:
+        var: jacks.stdout_lines
