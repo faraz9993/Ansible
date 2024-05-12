@@ -1,0 +1,64 @@
+1. Which of the following Jinja2 expressions you will use along with the variable named user that generates the below output? Given that user=Tony.
+His name is Tony.
+Ans His name is {{ user }}
+
+2. Which of the following Jinja2 expressions you will use to display the book_name in title case?
+{
+  "book_name": "Title of books are usually title cased"
+}
+Ans {{ book_name | title }}
+
+3. Which of the following Jinja2 expressions you will use to display the highest number in the given array?
+{
+  "numbers": [
+    13,
+    32,
+    53,
+    34,
+    25,
+    76,
+    17
+  ]
+}
+Ans {{ numbers | max }} 
+
+
+4. There is a jinja2 template named /home/bob/playbooks/upper/templates/student
+txt.j2 present on the student-node. Update this template to display the value of student variable in UPPERCASE.
+
+Example Data:
+{
+  "name": "David"
+}
+
+Expected output:
+The student name is DAVID
+Ans:
+Original code: 
+The student name is {{ student }}
+
+Updated code:
+The student name is {{ student | upper }}	
+
+
+5. There is a template named /home/bob/playbooks/replace/templates/name.txt.j2 on student-node. Similarly, there is a playbook named /home/bob/playbooks/replace/playbook.yml on student-node itself.
+
+Update this playbook to generate a file named /tmp/name.txt on student-node from the given jinja2 template, and make sure to fix the dialogue where string Bourne must be replaced with string Bond.
+
+
+
+Couldn’t solve
+
+6. Couldn’t solve
+
+7. Navigate to /home/bob/playbooks/inventory/ directory. A report template named inventory.csv.j2 is given under the templates directory.
+Update the template to print the requested details of all hosts defined in /home/bob/playbooks/inventory/inventory file. Further update /home/bob/playbooks/inventory/generate-inventory.yml playbook to generate the report and place it on the student-node node at /tmp/inventory.csv. 
+
+Use below variables from the gathered facts for each host.
+ansible_architecture
+ansible_distribution_version
+ansible_memtotal_mb
+ansible_processor_cores
+ansible_processor_count
+
+Couldn’t solved
