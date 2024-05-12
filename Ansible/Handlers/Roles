@@ -1,0 +1,50 @@
+1. You've been tasked with automating the configuration of Juniper devices in your network, to achieve this, you need to install the appropriate Ansible Collection that provides Juniper-specific modules and roles.
+Which of the following commands would you use to install the Juniper-specific collection for network automation?
+
+2. You've installed the amazon.aws collection and now you need to create an EC2 instance using a playbook.
+Given the following playbook snippet, identify the missing line that correctly imports the amazon.aws collection.
+You've installed the amazon.aws collection and now you need to create an EC2 instance using a playbook.
+Ans:
+---
+- hosts: localhost
+  [MISSING LINE HERE]
+  tasks:
+    - name: Launch an EC2 instance
+      ec2_instance:
+        name: my-instance
+        region: us-west-1
+collections: [amazon.aws]
+
+
+3. You are given access to a lab environment with a machine (i.e student-node) that has Ansible installed. On this machine, there's a /home/bob/playbooks/requirements.yml file that lists several collections required for a project. Your task is to install all the collections listed in the /home/bob/playbooks/requirements.yml file using the correct command.
+Ans ansible-galaxy collection install -r requirements.yml
+
+4. Difficult
+
+5. Given the following sample Ansible playbook /update_web_server_config.yml
+- name: Update web server configuration
+  hosts: webservers
+  tasks:
+    - name: Copy web server configuration file
+      copy:
+        src: /path/to/webserver.conf
+        dest: /etc/webserver/webserver.conf
+      notify: Restart web server
+Ans 
+d.
+handlers:
+  - name: Restart web server
+    service:
+      name: webserver
+      state: restarted
+
+6. You are given access to a lab environment with a server (i.e student-node). On this server, you have a playbook named /home/bob/ansible_lab/handler_test.yml. This playbook contains multiple tasks that notify the same handler. Your task is to run the playbook and answer below question.
+How many times will the handler be executed during the playbook run?
+
+7. You have a handler named Restart Network Service. Which of the following task implementations correctly notifies this handler when the network configuration file is modified?
+Ans:
+- name: Update network configuration
+  copy:
+    src: /path/to/network.conf
+    dest: /etc/network/network.conf
+  notify: Restart Network Service
