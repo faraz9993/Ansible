@@ -1,0 +1,144 @@
+1. 
+In this lab exercise you will use below hosts. Please note down some details about these hosts as given below :
+student-node :- This host will act as an Ansible master node where you will create playbooks, inventory, roles etc and you will be running your playbooks from this host itself.
+
+
+node01 :- This host will act as an Ansible client/remote host where you will setup/install some stuff using Ansible playbooks. Below are the SSH credentials for this host:
+
+
+User: bob
+Password: caleston123
+
+
+node02 :- This host will also act as an Ansible client/remote host where you will setup/install some stuff using Ansible playbooks. Below are the SSH credentials for this host:
+
+
+User: bob
+Password: caleston123
+
+
+Note: Please type exit or logout on the terminal or press CTRL + d to log out from a specific node.
+
+
+2. Can we define variables in Ansible inventory file?
+Ans: Yes
+
+3. Can we define variables in Ansible playbook?
+Ans: Yes
+
+
+
+
+4. Which of the following formats is used to call a variable in an Ansible playbook?
+Ans: ‘{{ variable_name }}’
+
+5. The /home/bob/playbooks/playbook.yaml playbook is adding a name server entry in /tmp/resolv.conf sample file on localhost. The name server information is already added to the /home/bob/playbooks/inventory file as a variable called nameserver_ip.
+
+
+Replace the hardcoded ip address of the name server in this playbook to use the value from the variable defined in the inventory file.
+
+Note: You need not to execute this playbook as of now.
+name: 'Add nameserver in resolv.conf file on localhost'
+  hosts: localhost
+  become: yes
+  tasks:
+    - name: 'Add nameserver in resolv.conf file'
+      lineinfile:
+        path: /tmp/resolv.conf
+        line: 'nameserver {{ nameserver_ip }}'
+
+#Just replaced the hardcoded ip which was 8.8.8.8 to varaiable named given in the question in the format of que 4
+# Took reference from Que 4.
+
+6. We have updated the /home/bob/playbooks/playbook.yaml playbook to add a new task to disable SNMP port on localhost. However, the port is hardcoded in the playbook. Update the playbook to replace the hardcoded value of the SNMP port to use the value from the variable named snmp_port, defined in the inventory file.
+
+Note: You need not to execute this playbook as of now.
+
+Original code:
+ name: 'Add nameserver in resolv.conf file on localhost'
+  hosts: localhost
+  become: yes
+  tasks:
+    - name: 'Add nameserver in resolv.conf file'
+      lineinfile:
+        path: /tmp/resolv.conf
+        line: 'nameserver {{  nameserver_ip  }}'
+    - name: 'Disable SNMP Port'
+      firewalld:
+        port: '160-161'
+        permanent: true
+        state: disabled
+
+Updated code:
+ name: 'Add nameserver in resolv.conf file on localhost'
+  hosts: localhost
+  become: yes
+  tasks:
+    - name: 'Add nameserver in resolv.conf file'
+      lineinfile:
+        path: /tmp/resolv.conf
+        line: 'nameserver {{  nameserver_ip  }}'
+    - name: 'Disable SNMP Port'
+      firewalld:
+        port: '{{ snmp_port }}'
+        permanent: true
+        state: disabled
+
+7. We have reset the /home/bob/playbooks/playbook.yaml playbook. Its printing some personal information of an employee. We would like to move the car_model, country_name and title values to the respective variables, and these variables should be defined at the play level.
+
+
+Add three new variables named car_model, country_name and title under the play and move the values over there. Use these variables within the task to remove the hardcoded values.
+
+Original code:
+--
+- hosts: localhost
+  tasks:
+    - command: 'echo "My car is BMW M3"'
+    - command: 'echo "I live in the USA"'
+    - command: 'echo "I work as a Systems Engineer"'
+
+Updated code:
+hosts: localhost
+  vars:
+          car_model: 'BMW M3'
+          country_name: USA
+          title: 'Systems Engineer'
+  tasks:
+    - command: 'echo "My car is {{ car_model }}"'
+    - command: 'echo "I live in the {{ country_name }}"'
+    - command: 'echo "I work as a {{ title }}"'
+
+
+#https://docs.ansible.com/ansible/latest/playbook_guide/playbooks_variables.html
+#variables are written as var
+
+Que 9:
+The /home/bob/playbooks/app_install.yaml playbook is responsible for installing a list of packages on a remote server(s). The list of packages to be installed is already added to the /home/bob/playbooks/inventory file as a list variable called app_list.
+
+Right now the list of packages to be installed is hardcoded in the playbook. Update the /home/bob/playbooks/app_install.yaml playbook to replace the hardcoded list of packages to use the values from the app_list variable defined in the inventory file. Once updated, please run the playbook once to make sure it works fine.
+Ans:
+Given code:
+---
+- hosts: all
+  become: yes
+  tasks:
+    - name: Install applications
+      yum:
+        name: "{{ item }}"
+        state: present
+      with_items:
+        - vim
+        - sqlite
+        - jq
+
+Updated code:
+---
+- hosts: all
+  become: yes
+  tasks:
+    - name: Install applications
+      yum:
+        name: "{{ item }}"
+        state: present
+      with_items:
+        - '{{ app_list }}'
