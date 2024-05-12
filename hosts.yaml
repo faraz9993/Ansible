@@ -1,0 +1,10 @@
+---
+- name: printing the host name of the target machines
+  hosts: webservers
+  tasks:
+    - name: writing command for hostname
+      command: hostname
+      register: jackss
+    - debug:
+        var: jackss.stdout_lines
+

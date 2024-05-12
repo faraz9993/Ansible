@@ -1,0 +1,8 @@
+---
+- name: running a script on target nodes
+  hosts: webservers
+  gather_facts: no
+  tasks:
+    - name: command for running the script
+      shell: /pr14.sh
+      become: yes

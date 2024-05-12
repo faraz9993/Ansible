@@ -1,0 +1,15 @@
+---
+- name: copying and run script on target nodes
+  hosts: webservers
+  gather_facts: no
+  tasks:
+    - name: copying file to target nodes
+      copy:
+        src: /home/einfochips/Shell_Practice/pr14.sh
+        dest: /pr14.sh
+        mode: 0777
+      become: yes
+    - name: runnig the script on target nodes
+      shell: /pr14.sh
+      become: yes
+
