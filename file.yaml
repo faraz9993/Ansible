@@ -1,8 +1,0 @@
----
-- name: creating a text file
-  hosts: webservers
-  gather_facts: no
-  tasks:
-    - name: running command
-      command: touch /shahid.txt
-      become: yes

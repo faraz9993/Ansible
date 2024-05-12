@@ -1,9 +1,0 @@
----
-- name: running jinja template
-  hosts: webservers
-  tasks:
-    - name: taking jinja2 as a template
-      ansible.builtin.template:
-              src: message.j2
-              dest: /message2.j2
-      become: yes
