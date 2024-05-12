@@ -1,150 +1,65 @@
-1. In this lab exercise you will use below hosts. Please note down some details about these hosts as given below :
-student-node :- This host will act as an Ansible master node where you will create playbooks, inventory, roles etc and you will be running your playbooks from this host itself.
+1. Which of the following Jinja2 expressions you will use along with the variable named user that generates the below output? Given that user=Tony.
+His name is Tony.
+Ans His name is {{ user }}
+
+2. Which of the following Jinja2 expressions you will use to display the book_name in title case?
+ANS:
+{
+  "book_name": "Title of books are usually title cased"
+}
+Ans {{ book_name | title }}
+
+3. Which of the following Jinja2 expressions you will use to display the highest number in the given array?
+{
+  "numbers": [
+    13,
+    32,
+    53,
+    34,
+    25,
+    76,
+    17
+  ]
+}
+Ans {{ numbers | max }} 
 
 
-node01 :- This host will act as an Ansible client/remote host where you will setup/install some stuff using Ansible playbooks. Below are the SSH credentials for this host:
+4. There is a jinja2 template named /home/bob/playbooks/upper/templates/student
+txt.j2 present on the student-node. Update this template to display the value of student variable in UPPERCASE.
 
-
-User: bob
-Password: caleston123
-
-
-node02 :- This host will also act as an Ansible client/remote host where you will setup/install some stuff using Ansible playbooks. Below are the SSH credentials for this host:
-
-
-User: bob
-Password: caleston123
-
-
-Note: Please type exit or logout on the terminal or press CTRL + d to log out from a specific node.
-
-2. Which of the following Ansible modules support free_form parameter?
-Ans: Command
-
-3. Does Ansible support idempotancy?
-Ans: Yes
-
-4. Which of the following commands we can use to see the information about Ansible modules from command line?
-Ans: ansible-doc
-
-5. Which Ansible module is used in the following playbook?
----
-- hosts: localhost
-  become: yes
-  become_user: root
-  tasks:
-    - name: create user
-      user:
-        name: admin
-Ans: user
-
-6. Which of the following statements are true about lineinfile Ansible module?
-Ans. It keeps the existing lines as well and add a new given line in the file.
-
-7. What are Ansible system modules used for?
-Ans. System modules are actions to be performed at a system level such as modifying the users and groups on a system, modifying iptables, starting/stopping the service etc.
-
-8. Your organization uses a proprietary cloud service that is not natively supported by Ansible. You need to develop a custom Ansible module to interact with this cloud service's API and provision resources.
-Which type of the Ansible plugins allows you to integrate with a cloud provider's API for custom resource provisioning? 
-Ans Module plugins
-
-9. You've developed a custom module named custom_cloud. To test this module in a playbook named deploy.yml, which of the following task definitions is correct?
-Ans: 
-- name: Provision custom cloud resource
-  custom_cloud
-    - param1: value1
-    - param2: value2
-
-10. You are tasked with setting up an Ansible playbook that automates the deployment of applications on AWS ec2 instances. Before running the playbook, you need to ensure that Ansible has an up-to-date inventory of all ec2 instances in your AWS account.
-Which type of Ansible plugin would you use to fetch real-time information about your AWS ec2 instances?
-Ans Dynamic Inventory Plugin
-
-11. You have a custom dynamic inventory script named aws_inventory.py. Which command would you use to list all hosts in your AWS inventory using this script?
-Ans ansible-inventory --list -i aws_inventory.py
-
-12. You are tasked with finding a module in Ansible that helps manage Cisco devices. Using the Modules & Plugins Index, which of the following modules is specifically designed for managing Cisco IOS devices?
-Ans cisco.ios
-
-13. Which of the following is not a key parameter available for cisco.ios module?
-Ans ios_version
-
-14. Which of the following Ansible versions is cisco.ios module likely to be compatible with?
-Note: This can be a hypothetical answer; the actual version compatibility would need to be checked in the Modules & Plugins Index.
-Ans Ansible 2.8
-
-Use the script module.
-
-Note: There is already an inventory file /home/bob/playbooks/inventory present on student-node system.
-Original code:
----
-- name: 'hosts'
-  hosts: all
-  become: yes
-  tasks:
+Example Data:
+{
+  "name": "David"
+}
+`
+Expected output:
+The student name is DAVID
+Ans:
+Original code: 
+The student name is {{ student }}
 
 Updated code:
----
-- name: 'hosts'
-  hosts: all
-  become: yes
-  tasks:
-    -  name: 'Execute a script'
-       script: '/tmp/install_script.sh'
+The student name is {{ student | upper }}	
 
 
-17. Update the playbook /home/bob/playbooks/playbook.yaml to add a new task to start httpd service on all web nodes defined in /home/bob/playbooks/inventory file.
+5. There is a template named /home/bob/playbooks/replace/templates/name.txt.j2 on student-node. Similarly, there is a playbook named /home/bob/playbooks/replace/playbook.yml on student-node itself.
+
+Update this playbook to generate a file named /tmp/name.txt on student-node from the given jinja2 template, and make sure to fix the dialogue where string Bourne must be replaced with string Bond.
 
 
-Use the service module.
-Original code:
----
-- name: 'hosts'
-  hosts: all
-  become: yes
-  tasks:
-    - name: 'Execute a script'
-      script: '/tmp/install_script.sh'
 
-Updated code
----
-- name: 'hosts'
-  hosts: all
-  become: yes
-  tasks:
-    - name: 'Execute a script'
-      script: '/tmp/install_script.sh'
-    - name: 'Start httpd service'
-      service:
-        name: 'httpd'
-        state: 'started'
+Couldn’t solve
 
-18. Update the playbook /home/bob/playbooks/playbook.yaml to append the /var/www/html/index.html file on all web nodes. The line needs to be added is Welcome to ansible-beginning course, create the index.html file if doesn't exist.
+6. Couldn’t solve
 
-Use the lineinfile module.
-N/A
+7. Navigate to /home/bob/playbooks/inventory/ directory. A report template named inventory.csv.j2 is given under the templates directory.
+Update the template to print the requested details of all hosts defined in /home/bob/playbooks/inventory/inventory file. Further update /home/bob/playbooks/inventory/generate-inventory.yml playbook to generate the report and place it on the student-node node at /tmp/inventory.csv. 
 
+Use below variables from the gathered facts for each host.
+ansible_architecture
+ansible_distribution_version
+ansible_memtotal_mb
+ansible_processor_cores
+ansible_processor_count
 
-19. Update the playbook /home/bob/playbooks/playbook.yaml to add a new task to create a new user called web_user.
-
-Use the user module for this task. You can find the user details as below.
-
-Username: web_user
-uid: 1040
-group: developers
-
----
-- name: 'hosts'
-  hosts: all
-  become: yes
-tasks:
-    - name: 'Execute a script'
-      script: '/tmp/install_script.sh'
-    - name: 'Start httpd service'
-      service:
-        name: 'httpd'
-        state: 'started'
-    - name: 'Create a new user'
-      user:
-        name: 'web_user'
-        uid: 1040
-        group: 'developers'
+Couldn’t solved
